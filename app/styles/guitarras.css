@@ -49,18 +49,3 @@
     margin: 0;
     font-weight: 900;
 }
-
-/*Errores*/
-
-.error, .error-enlace {
-    font-size: 2.4rem;
-    text-align: center;
-    margin-top: 5rem;
-}
-
-.error-enlace {
-    display: block;
-    color: var(--primary);
-    text-decoration: none;
-    font-size: 1.8rem;
-}

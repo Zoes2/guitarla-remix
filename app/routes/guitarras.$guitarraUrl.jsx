@@ -68,11 +68,11 @@ export function links() {
 function Guitarra() {
 
     const guitarra = useLoaderData()
-    const { nombre, descripcion, imagen, precio } = guitarra.data[0].attributes
+    const { nombre, descripcion, imagen, precio } = guitarra?.data[0]?.attributes
 
     return (
         <main className='contenedor guitarra'>
-            <img src={imagen.data.attributes.url} alt={`Imagen de la guitarra ${nombre}`} />
+            <img src={imagen?.data?.attributes?.url} alt={`Imagen de la guitarra ${nombre}`} />
 
             <div className='contenido'>
                 <h3>{nombre}</h3>
