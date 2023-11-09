@@ -1,14 +1,57 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, useRouteError, isRouteErrorResponse, Link } from '@remix-run/react'
 import { getGuitarra } from '~/models/guitarras.server'
 import styles from '~/styles/guitarras.css'
 
-export function meta({data}) {
+export async function loader({ params }) {
+
+    const { guitarraUrl } = params
+    const guitarra = await getGuitarra(guitarraUrl)
+
+    if (guitarra.data.length === 0) {
+        throw new Response('', {
+            status: 404,
+            statusText: 'Guitarra No Encontrada'
+        })
+    }
+
+
+    return guitarra
+}
+/** Manejo de Errores */
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+
+    if (isRouteErrorResponse(error)) {
+        return (
+            <div className=''>
+                <p className='error'>
+                    {error.status} {error.statusText}
+                </p>
+                <Link className='error-enlace' to='/'>Tal vez quieras volver a la página principal</Link>
+            </div>
+        );
+    }
+}
+
+export function meta({ data }) {
+
+    if (!data ) {
+        return (
+            [
+                { title: `GuitarLA - Guitarra No Encontrada` },
+                { description: `Guitarras, venta de guitarras, guitarra guitarra no encontrada` }
+            ]
+        )
+    }
+
     return (
         [
             { title: `GuitarLA - ${data.data[0].attributes.nombre}` },
             { description: `Guitarras, venta de guitarras, guitarra ${data.data[0].attributes.nombre}` }
         ]
     )
+
 }
 
 export function links() {
@@ -20,13 +63,7 @@ export function links() {
     ]
 }
 
-export async function loader({request, params}) {
-    
-    const { guitarraUrl } = params
-    const guitarra = await getGuitarra(guitarraUrl)
-    
-    return guitarra
-}
+
 
 function Guitarra() {
 
