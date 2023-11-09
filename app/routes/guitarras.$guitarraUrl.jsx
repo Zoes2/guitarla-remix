@@ -24,7 +24,7 @@ export function ErrorBoundary() {
 
     if (isRouteErrorResponse(error)) {
         return (
-            <div className=''>
+            <div>
                 <p className='error'>
                     {error.status} {error.statusText}
                 </p>
