@@ -50,24 +50,7 @@
     font-weight: 900;
 }
 
-.guitarra .enlace {
-    margin-top: 2rem;
-    display: block;
-    background-color: var(--black);
-    color: var(--white);
-    text-decoration: none;
-    padding: .5rem;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 1.5rem;
-    font-weight: 900;
-    transition-property: background-color;
-    transition-duration: 300ms;
-}
-
-.guitarra .enlace:hover {
-    background-color: var(--primary);
-}
+/*Errores*/
 
 .error, .error-enlace {
     font-size: 2.4rem;
