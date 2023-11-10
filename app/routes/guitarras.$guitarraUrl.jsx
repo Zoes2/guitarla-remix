@@ -75,7 +75,7 @@ function Guitarra() {
             cantidad
         }
 
-        agregarCarrito()
+        agregarCarrito(guitarraSeleccionada)
     }
 
     const guitarra = useLoaderData()
