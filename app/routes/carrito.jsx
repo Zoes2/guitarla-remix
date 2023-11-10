@@ -21,7 +21,7 @@ export function meta() {
 
 function Carrito() {
 
-    const { carrito } = useOutletContext()
+    const { carrito, actualizarCantidad } = useOutletContext()
 
     return (
         <main className="contenedor">
@@ -31,8 +31,8 @@ function Carrito() {
                 <div className='carrito'>
                     <h2>Articulos</h2>
 
-                    {carrito.length === 0 ? 'Carrito Vacio' :(
-                        carrito.map( producto => (
+                    {carrito.length === 0 ? 'Carrito Vacio' : (
+                        carrito.map(producto => (
                             <div className='producto' key={producto.id}>
                                 <div>
                                     <img src={producto.imagen} alt={`Imagen del producto ${producto.nombre}`} />
@@ -40,7 +40,22 @@ function Carrito() {
 
                                 <div>
                                     <p className='nombre'>{producto.nombre}</p>
-                                    <p>Cantidad: {producto.cantidad}</p>
+                                    <p>Cantidad:</p>
+
+                                    <select 
+                                        value={producto.cantidad}
+                                        onChange={e => actualizarCantidad({
+                                            cantidad: parseInt(e.target.value),
+                                            id: producto.id
+                                        })}
+                                        className='select'
+                                    >
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
 
 
                                     <p className='precio'>$ <span>{producto.precio}</span></p>
