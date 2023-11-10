@@ -27,10 +27,10 @@ function Carrito() {
     const { carrito, actualizarCantidad, eliminarGuitarra } = useOutletContext()
 
     useEffect(() => {
-        const calculoTotal = carrito.reduce( (total, producto) => total + (producto.cantidad * producto.precio), 0)
+        const calculoTotal = carrito.reduce((total, producto) => total + (producto.cantidad * producto.precio), 0)
         setTotal(calculoTotal)
     }, [carrito])
-    
+
 
     return (
         <main className="contenedor">
@@ -40,8 +40,8 @@ function Carrito() {
                 <div className='carrito'>
                     <h2>Articulos</h2>
 
-                    {carrito.length === 0 ? 'Carrito Vacio' : (
-                        carrito.map(producto => (
+                    {carrito?.length === 0 ? 'Carrito Vacio' : (
+                        carrito?.map(producto => (
                             <div className='producto' key={producto.id}>
                                 <div>
                                     <img src={producto.imagen} alt={`Imagen del producto ${producto.nombre}`} />
@@ -51,7 +51,7 @@ function Carrito() {
                                     <p className='nombre'>{producto.nombre}</p>
                                     <p>Cantidad:</p>
 
-                                    <select 
+                                    <select
                                         value={producto.cantidad}
                                         onChange={e => actualizarCantidad({
                                             cantidad: parseInt(e.target.value),
@@ -79,8 +79,6 @@ function Carrito() {
                             </div>
                         ))
                     )}
-
-
                 </div>
 
                 <aside className="resumen">
@@ -88,8 +86,6 @@ function Carrito() {
                     <p>Total a Pagar: ${total}</p>
                 </aside>
             </div>
-
-
         </main>
     )
 }

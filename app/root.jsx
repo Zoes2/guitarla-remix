@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Meta, Links, Outlet, Scripts, LiveReload  } from '@remix-run/react'
+import { useState, useEffect } from 'react'
+import { Meta, Links, Outlet, Scripts, LiveReload } from '@remix-run/react'
 import styles from '~/styles/index.css'
 import Header from '~/components/header'
 import Footer from '~/components/footer'
@@ -50,11 +50,23 @@ export function links() {
 export default function App() {
 
     const [carrito, setCarrito] = useState([])
+    // UseEffect para guardar en el LS
+    useEffect(() => {
+        //Comprobación de longitud del arreglo sea distinta de 0 para asi evitar cargar un arreglo vacío en el primer render
+        if (carrito?.length === 0) return
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+    }, [carrito])
+    // useEffect para cargar el state con info del LS
+    useEffect(() => {
+        const carritoLS = JSON.parse(localStorage.getItem('carrito')) ?? []
+
+        setCarrito(carritoLS)
+    }, [])
 
     const agregarCarrito = guitarra => {
         if (carrito.some(guitarraState => guitarraState.id === guitarra.id)) {
             //Vamos a iterar sobre el arreglo para identificar el elemento duplicado
-            const carritoActualizado = carrito.map( guitarraState => {
+            const carritoActualizado = carrito.map(guitarraState => {
                 if (guitarraState.id === guitarra.id) {
                     //Reescribe la cantidad de guitarras
                     guitarraState.cantidad = guitarra.cantidad
@@ -71,7 +83,7 @@ export default function App() {
 
     const actualizarCantidad = guitarra => {
         //Vamos a iterar sobre el arreglo para identificar el elemento a Actualizar
-        const carritoActualizado = carrito.map( guitarraState => {
+        const carritoActualizado = carrito.map(guitarraState => {
             if (guitarraState.id === guitarra.id) {
                 //Reescribe la cantidad de guitarras
                 guitarraState.cantidad = guitarra.cantidad
@@ -83,13 +95,15 @@ export default function App() {
     }
 
     const eliminarGuitarra = id => {
-        const carritoActualizado = carrito.filter( guitarraState => guitarraState.id !== id)
+        const carritoActualizado = carrito.filter((guitarraState) => guitarraState.id !== id)
+        //Comprobación si el carrito queda en 0, guardar en el LS un arreglo vacío
+        carritoActualizado.length === 0 && localStorage.setItem('carrito', '[]')
         setCarrito(carritoActualizado)
     }
 
     return (
         <Document>
-            <Outlet 
+            <Outlet
                 context={{
                     agregarCarrito,
                     carrito,
