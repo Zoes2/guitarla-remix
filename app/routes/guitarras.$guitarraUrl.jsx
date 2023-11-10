@@ -1,4 +1,5 @@
-import { useLoaderData, useRouteError, isRouteErrorResponse, Link } from '@remix-run/react'
+import { useState } from 'react'
+import { useLoaderData, useOutletContext, useRouteError, isRouteErrorResponse, Link } from '@remix-run/react'
 import { getGuitarra } from '~/models/guitarras.server'
 
 export async function loader({ params }) {
@@ -55,6 +56,28 @@ export function meta({ data }) {
 
 function Guitarra() {
 
+    //State para funcionalidad carrito
+    const { agregarCarrito } = useOutletContext()
+    const [ cantidad, setCantidad ] = useState(0)
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        if (cantidad < 1) {
+            alert('Debes seleccionar una cantidad! ')
+            return
+        }
+        //Objeto de guitarra
+        const guitarraSeleccionada = {
+            id: guitarra?.data[0]?.id,
+            imagen: imagen?.data?.attributes?.url,
+            nombre,
+            precio,
+            cantidad
+        }
+
+        agregarCarrito()
+    }
+
     const guitarra = useLoaderData()
     const { nombre, descripcion, imagen, precio } = guitarra?.data[0]?.attributes
 
@@ -67,11 +90,15 @@ function Guitarra() {
                 <p className='texto'>{descripcion}</p>
                 <p className='precio'>$ {precio}</p>
 
-                <form action="" className='formulario'>
+                <form onSubmit={handleSubmit} className='formulario'>
                     <label htmlFor="cantidad">Cantidad</label>
 
-                    <select name="" id="cantidad">
-                        <option value="">-- Seleccione --</option>
+                    <select 
+                        onChange={e => setCantidad(parseInt(e.target.value))}
+                        id="cantidad"
+                    
+                    >
+                        <option value="0">-- Seleccione --</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
