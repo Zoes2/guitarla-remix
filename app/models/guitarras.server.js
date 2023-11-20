@@ -1,10 +1,11 @@
 export async function getGuitarras() {
-    const respuesta = await fetch('http://127.0.0.1:1337/api/guitarras?populate=imagen')
+    const respuesta = await fetch('https://guitarla-strapi-i0n1.onrender.com/api/guitarras?populate=imagen')
     return await respuesta.json()
 
 }
 
+
 export async function getGuitarra(url) {
-    const respuesta = await fetch(`http://127.0.0.1:1337/api/guitarras?filters[url]=${url}&populate=imagen`)
+    const respuesta = await fetch(`https://guitarla-strapi-i0n1.onrender.com/api/guitarras?filters[url]=${url}&populate=imagen`)
     return await respuesta.json()
 }
